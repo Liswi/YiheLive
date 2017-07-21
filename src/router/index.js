@@ -23,151 +23,174 @@ import Recharge from '@/components/PerCenter/myCount/recharge'
 import Wrong from '@/components/404/404'
 import City from '@/components/contents/home/city/city'
 import Cart from '@/components/cart/index'
-//import Car from '@/components/cart/car/car'
+import TiePhone from '@/components/PerCenter/myCount/tiePhone'
+import MsgDetail from '@/components/PerCenter/myCount/msg-detail'
+import Exchange from '@/components/PerCenter/myCount/exchange'
 
 Vue.use(Router)
 
 export default new Router({
-	mode:"history",
-  routes: [
-  {
-  			path:'/',
-  			name:"guide",
-  			component:Guide
-  		},
-  		{
-  			path:"/login",
-  			name:"Login",
-  			component:Login
-  		},
-  		{
-	  		path:"/reg",
-	  		name:"Reg",
-	  		component:Reg
-  		},
-   	 {
-      path: '/index',
-      name: 'root',
-      component: Home,
-      children:[{
-      	path:"city",
-      	name:"City",
-      	component:City
-      }]
-    },
-    {
-    		path:'/cart',
-    		component:Cart,
-    		children:[
-    			{
-    				path:'/',
-    				name:'shopCar1',
-    				component:resolve => require(['@/components/cart/car/car'], resolve),
-    			},
-    			{
-    				path:'car',
-    				name:'shopCar2',
-    				component:resolve => require(['@/components/cart/car/car'], resolve),
-    			},
-    			{
-    				path:'confirm',
-    				name:'confirm',
-    				component:resolve => require(['@/components/cart/confirm-indent'], resolve),
-    			},
-    			{
-    				path:'success',
-    				name:'success',
-    				component:resolve => require(['@/components/cart/success'], resolve),
-    			},
-    		
-    		]
-    },
-    {
-      path: '/home',
-      name: 'home',
-      component: Home
-    },
-    {
-	    	path:'/choice',
-	    	name:'choice',
-	    	component: Choice
-    },
-    {
-    		path:'/special',
-	    	name:'special',
-	    	component: Special
-    },
-    {
-    		path:'/rank',
-	    	name:'rank',
-	    	component: Rank
-    },
-    {
-   	 	path:'/join',
-	    	name:'join',
-	    	component: Join
-    },
-    {
-    		path:'/perCenter',
+	mode: "history",
+	routes: [{
+			path: '/',
+			name: "guide",
+			component: Guide
+		},
+		{
+			path: "/login",
+			name: "Login",
+			component: Login
+		},
+		{
+			path: "/reg",
+			name: "Reg",
+			component: Reg
+		},
+		{
+			path: '/index',
+			name: 'root',
+			component: Home,
+			children: [{
+				path: "city",
+				name: "City",
+				component: City
+			}, {
+				path: "store",
+				name: "store",
+				component: resolve => require(['@/components/stors'], resolve),
+				children: [{
+					path: "detail",
+					name: "detail",
+					component: resolve => require(['@/components/stors/goodsDetail/goodsDetail'], resolve),
+				}]
+			}]
+		},
+		{
+			path: '/cart',
+			component: Cart,
+			children: [{
+					path: '/',
+					name: 'shopCar1',
+					component: resolve => require(['@/components/cart/car/car'], resolve),
+				},
+				{
+					path: 'car',
+					name: 'shopCar2',
+					component: resolve => require(['@/components/cart/car/car'], resolve),
+				},
+				{
+					path: 'confirm',
+					name: 'confirm',
+					component: resolve => require(['@/components/cart/confirm-indent'], resolve),
+				},
+				{
+					path: 'success',
+					name: 'success',
+					component: resolve => require(['@/components/cart/success'], resolve),
+				},
 
-    		component: PerCenter,
-    		children:[
-    			{
-    				path:"myAccount",
-    				name:"myAccount",
-    				component:MyAccount
-    			},{
-    			    	path:"/",
-    				component:MyAccount
-    			},
-    			{
-    				path:'recharge',
-    				name:'recharge',
-    				component:Recharge    				
-    			},
-    			{
-    				path:"myOrder",
-    				name:"myOrder",
-    				component:MyOrder
-    			},{
-    				path:"address",
-    				name:"address",
-    				component:Address
-    			},{
-    				path:"myCollection",
-    				name:"myCollection",
-    				component:MyCollection
-    			},{
-    				path:"myItg",
-    				name:"myItg",
-    				component:MyItg
-    			},{
-    				path:"myMessage",
-    				name:"myMessage",
-    				component:MyMessage
-    			},{
-    				path:"myTicket",
-    				name:"myTicket",
-    				component:MyTicket
-    			},{
-    				path:"perInfo",
-    				name:"perInfo",
-    				component:PerInfo
-    			},{
-    				path:"recentView",
-    				name:"recentView",
-    				component:RecentView
-    			},{
-    				path:"resetPassword",
-    				name:"resetPassword",
-    				component:ResetPassword
-    			}
-    		
-    		]
-    },
-    {
-    		path:'*',
-    		component:Wrong
-    }
-  ]
+			]
+		},
+		{
+			path: '/home',
+			name: 'home',
+			component: Home
+		},
+		{
+			path: '/choice',
+			name: 'choice',
+			component: Choice
+		},
+		{
+			path: '/special',
+			name: 'special',
+			component: Special
+		},
+		{
+			path: '/rank',
+			name: 'rank',
+			component: Rank
+		},
+		{
+			path: '/join',
+			name: 'join',
+			component: Join
+		},
+		{
+			path: '/perCenter',
+
+			component: PerCenter,
+			children: [{
+					path: "myAccount",
+					name: "myAccount",
+					component: MyAccount
+				}, {
+					path: "/",
+					component: MyAccount
+				},
+				{
+					path: 'recharge',
+					name: 'recharge',
+					component: Recharge
+				},
+				{
+					path: "exchange",
+					name: "exchange",
+					component: Exchange
+				},
+				{
+					path: "msgDetail",
+					name: "msgDetail",
+					component: MsgDetail
+				},
+				{
+					path: 'tiePhone',
+					name: 'tiePhone',
+					component: TiePhone
+				},
+				{
+					path: "myOrder",
+					name: "myOrder",
+					component: MyOrder
+				}, {
+					path: "address",
+					name: "address",
+					component: Address
+				}, {
+					path: "myCollection",
+					name: "myCollection",
+					component: MyCollection
+				}, {
+					path: "myItg",
+					name: "myItg",
+					component: MyItg
+				}, {
+					path: "myMessage",
+					name: "myMessage",
+					component: MyMessage
+				}, {
+					path: "myTicket",
+					name: "myTicket",
+					component: MyTicket
+				}, {
+					path: "perInfo",
+					name: "perInfo",
+					component: PerInfo
+				}, {
+					path: "recentView",
+					name: "recentView",
+					component: RecentView
+				}, {
+					path: "resetPassword",
+					name: "resetPassword",
+					component: ResetPassword
+				}
+
+			]
+		},
+		{
+			path: '*',
+			component: Wrong
+		}
+	]
 })

@@ -6,7 +6,7 @@
 				<ul class="left_cont">
 					<!--交易管理-->
 					<li class="manager">
-						<h2>交易管理<em>&gt;</em></h2>
+						<h2>交易管理<em></em></h2>
 					</li>
 					<li>
 						<router-link to="/perCenter/myAccount">我的账户</router-link>
@@ -22,7 +22,7 @@
 					</li>
 					<!--会员资料-->
 					<li class="user">
-						<h2>会员资料<em>&gt;</em></h2>
+						<h2>会员资料<em></em></h2>
 					</li>
 					<li>
 						<router-link to="/perCenter/perInfo">个人资料</router-link>
@@ -40,7 +40,7 @@
 						<router-link to="/perCenter/resetPassword">修改密码</router-link>
 					</li>
 					<li class="msg">
-						<h2>站内信<em>&gt;</em></h2>
+						<h2>站内信<em></em></h2>
 					</li>
 					<li>
 						<router-link to="/perCenter/myMessage">我的消息</router-link>
@@ -75,10 +75,19 @@
 				border: 1px solid #D3D3D3;
 				margin-right: 20px;
 				h2{
+					position: relative;
 					font-size: 18px;	
 					font-weight: 500;	
 					em{
-						float: right;
+						width: 16px;
+						height: 16px;
+						display: inline-block;
+						background-image: url(./img/sprite.png);
+						background-position: 0 -463px;
+						vertical-align: middle;
+					    position: absolute;
+					    top: 8px;
+					    right: 0;
 					}			
 					span{
 						width: 18px;

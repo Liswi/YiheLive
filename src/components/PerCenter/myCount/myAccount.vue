@@ -72,14 +72,14 @@
 		name: "",
 		data() {
 			return {
-				userPic: "/static/user1/img/headimg.jpg",
+				userPic: "/static/img/headPic1.png",
 				userName: "义",
 				currentIntegral: 124,
 				remainder:  1220.00,
 				ticket: 2,
 				vip: 2,
 				CRM: 2500, //消费额
-				footImg:"/static/img/ad1.png"
+				footImg:"/static/img/myAccount-pic1.png"
 			}
 		},
 		methods :{

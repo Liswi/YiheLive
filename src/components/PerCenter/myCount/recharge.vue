@@ -1,7 +1,7 @@
 <template>
 	<div class="recharge_warp">
 		<div class="recharge_head">
-			<Title :cmsg="msg"></Title>
+			<Tl :cmsg=msg[0]></Tl>
 			<div class="recharge_cont">
 				<p>账户余额:<span>¥{{remainder}}</span></p>
 				<p>充值金额:<input type="number" /></p>
@@ -9,7 +9,8 @@
 			</div>
 		</div>
 		<div class="rec_record">
-			<h2 class="title">充值记录</h2>
+			<Tl :cmsg=msg[1]></Tl>
+			<!--<h2 class="title">充值记录</h2>-->
 			<table class="rec_cont" cellspacing="80" cellpadding="20">
 				<tr style="border-bottom: 1px solid #D3D3D3;">
 					<th>时间</th>
@@ -32,13 +33,13 @@
 </template>
 
 <script>
-	import Title from "./title"
+	import Tl from "./title"
 	export default{
-		components:{Title},
+		components:{Tl},
 		name:"",
 		data(){
 			return{
-				msg:"账户充值",
+				msg:["账户充值","充值记录"],
 				remainder:"1220",
 				recharge_record:[{
 					time:"2017-04-19 15:21:33",
@@ -71,13 +72,7 @@
 	.recharge_warp {
 		width: 985px;
 		font-size: 18px;
-		float: left;
-		.title{
-			color: #008DE1;
-			font-size: 18px;
-			padding: 20px;
-			border-bottom: 1px solid #D3D3D3;
-		}
+		float: left;		
 		.recharge_head {
 			border: 1px solid #D3D3D3;
 			background-color: white;

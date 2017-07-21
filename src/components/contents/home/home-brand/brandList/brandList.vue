@@ -1,6 +1,6 @@
 <template>
 	<div class="brand_list_warp">
-		<div class="list_cont" v-for="item in srcArr">
+		<div class="list_cont" v-for="(item,index) in srcArr" @click="goStore(index)">
 			<div class="cover"></div>
 			<img :src="item" alt="" />	
 			<!--<img src="./img/brand-1.png"/>-->			
@@ -19,6 +19,11 @@
 		created:function(){
 			for(var i=0;i<12;i++){
 				this.srcArr[i] = require("./img/brand-"+(i+1)+".png");
+			}
+		},
+		methods:{
+			goStore(){
+				this.$router.push({name:"store"})
 			}
 		}
 	}
