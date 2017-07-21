@@ -22,6 +22,7 @@ ul,ol {
 input {
     padding-top: 0;
     padding-bottom: 0;
+    outline: none;
     font-family: "SimSun","宋体"
 }
 input::-moz-focus-inner {
@@ -44,4 +45,16 @@ textarea {
 }
 table {
     border-collapse: collapse
+}
+a{
+	text-decoration: none;
+	color: inherit;
+}
+.pointer{
+	cursor: pointer;
+}
+button{
+	cursor: pointer;
+	outline: none;
+	border: none;
 }

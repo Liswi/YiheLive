@@ -1,0 +1,235 @@
+.confirm_wrap{
+	width: 1100px;
+	margin: 0 auto; 
+	/*border: 1px solid;*/
+	
+}
+.address_title,.goods_title,.bill_title{
+		position:relative;
+		/*height: 75px;*/
+		padding-top: 40px;
+		padding-bottom: 20px;
+		text-align: left;
+		border-bottom: 1px solid #ededed;
+		span{
+			font-size: 18px;
+			color: gray;
+			
+		}
+		button{
+			position:absolute;
+			right: 0;
+			bottom: 10px;
+			cursor: pointer;
+			outline: none;
+			background-color: #f46b2b;
+			color: white;
+			font-size:14px;
+			font-weight:200;
+			padding: 6px 10px;
+			border: none;
+			border-radius: 5px;
+		}
+	}
+.address{
+	
+	dl{
+		.add_default{
+			.add_left{
+				font-weight: 500;
+			letter-spacing: 0.2em;
+			}
+		}
+		dt{
+			background-color:#fff3ec;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-size: 15px;
+			font-weight: 200;
+			margin-bottom: 10px;
+			padding: 12px 0;
+			.add_left{
+				input{
+					margin-left: 20px;
+					margin-right: 10px;
+				}
+				.default{
+					font-style: normal;
+					margin-left: 20px;
+					font-size: 13px;
+					color: rgba(0,0,0,0.5);
+				}
+			}
+			.add_right{
+				span{
+					margin: 12px;
+					cursor: pointer;
+				}
+				.setDefault{
+					color: #F46B2C;
+				}
+				.change,.delete{
+					color: #1E90FF;
+				}
+			}
+		
+		}
+	}
+	.add_operate{
+		text-align: right;
+		cursor: pointer;
+		padding-right: 40px;
+		span{
+			color: #018DE2;
+			font-weight: 200;
+			font-size: 14px;
+		};
+	}
+}
+.goods_info{
+			table{
+			margin-top:20px;
+			width: 100%;
+			border: 1px solid #ededed;
+			font-weight: 200;
+			.tr_title{
+				height: 35px;
+				background: #f2f2f2;
+				font-size: 15px;
+			}
+			.sumPrice{
+				td{
+						span{
+							display: block;
+							text-align: right;
+							padding-right: 160px;
+						}
+						.pricekey{
+							font-size: 17px;
+							margin-top:15px;
+							margin-bottom: 6px;
+						}
+						.priceSum{
+							color: orange;
+							font-size: 22px;
+						}
+				}
+			
+			}
+			tr{
+				border-bottom: 1px solid #ededed;
+				height: 80px;
+				font-size: 14px;
+				.checkbox{
+					width: 75px;
+					input{
+						width: 14px;
+						height: 14px;
+					}
+				}
+				.operate{
+					text-decoration: underline;
+					color: blue;
+					cursor: pointer;
+				}
+				.goodsname{
+					width: 500px;
+					text-align: left;
+					padding-left: 20px;
+					img{
+						display: inline-block;
+						vertical-align: middle;
+						border: 1px solid #D3D3D3;
+						margin-right: 20px;
+					}
+				}
+				.goodsstand{
+					width: 150px;
+					span{
+						display: block;
+						color: gray;
+						margin-bottom: 5px;
+						
+					}
+				}
+				.price{
+					
+				}
+				.num{
+					div{
+						width: 120px;
+						height: 30px;
+						border: 1px solid rgba(0,0,0,0.2);
+						margin: 0 auto;
+						display: flex;
+						justify-content: space-between;
+						button{
+							background: #f2f2f2;
+							height: 100%;
+							width: 30px;
+							font-size: 20px;
+							flex:2;
+							cursor: pointer;
+						}
+						input{
+							height: 30px;
+							width: 45px;
+							font-size: 16px;
+							text-align: center;
+							flex:3;
+							border: none;
+							border-left:1px solid rgba(0,0,0,0.2);
+							border-right:1px solid rgba(0,0,0,0.2);
+							vertical-align: top;
+						}
+					}
+				}
+			}
+		}
+}
+.billinfo{
+	text-align: left;
+	margin: 25px 0;
+	span{
+		display: block;
+		margin: 15px 0;
+		
+	}
+	input[type=text]{
+		border: 1px solid gray;
+		width: 300px;
+		height: 30px;
+		
+	}
+}
+.check_info{
+	text-align: right;
+	padding: 30px 0;
+	.top{
+		p{
+			margin: 20px 0;
+			span{
+				color: #F46B2C;
+				margin-left: 10px;
+			}
+			input{
+				border: 1px solid;
+				width: 50px;
+				height: 30px;
+				text-align: center;
+				/*margin-right: 10px;*/
+			}
+		}
+		
+	}
+	button{
+			width: 120px;
+			height: 40px;
+			font-size: 16px;
+			border-radius: 5px;
+			background: #F46B2C;
+			color:white;
+			border: none;
+		};
+}
