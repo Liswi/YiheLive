@@ -194,7 +194,18 @@
 					   			 this.shopcar.splice(i,1);
 					   }
 				}
-				}	
+				}else{
+					this.shopcar[m].goodslist.splice(n,1);	
+				  for(let i=0;i<this.shopcar.length;i++){
+					   		if(this.shopcar[i].goodslist.length==0){
+					   			
+					   			
+					   			
+					   			 this.shopcar.splice(i,1);
+					   }
+				}
+				}
+				 
 			},
 			deletegoods(){
 					for(let i=0;i<this.checkArr.length;i++){
