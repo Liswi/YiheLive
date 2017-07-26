@@ -6,10 +6,12 @@
 	     <Brand></Brand>
 	     <Cont></Cont>
 	     </div>
+	   
+
 	      <router-view>
 	      	
 	      </router-view>
-	    
+
 	</div>
 </template>
 
@@ -26,7 +28,7 @@
 			}
 		},
 		created(){
-//			console.log("调用了生成钩子")
+
 			if(this.$route.matched.length>1){
 				this.isShow=false
 			}else{
@@ -34,11 +36,11 @@
 			}
 		},
 		destroyed(){
-//			console.log("调用了销毁")
+			
 		},
 		beforeUpdate(){
-//			console.log("调用了更新")
-			console.log(this.$route.matched)
+
+//			console.log(this.$route.matched)
 			if(this.$route.matched.length>1){
 				this.isShow=false
 			}else{
@@ -56,5 +58,4 @@
 		width: 1181px;
 		margin: 0 auto;
 	}
-	
 </style>

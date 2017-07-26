@@ -7,10 +7,10 @@
 			<div class="title_wrap"><span class="title">登录</span> 
 			<span class="phonelogin"><router-link to="{name='phonelogin'}">手机验证码登录</router-link><em></em></span></div>
 			<div class="number"><input type="number" placeholder="请输入手机号" v-model="phoneNumber" @blur="checkNum"/> <span class="state" v-show="isNumRight"></span><span class="alert" v-show="isNumWrong"><em></em>手机号码不正确,请重新输入</span></div>
-			<div class="password"><input type="password" placeholder="请输入密码" v-model="passWord" @blur="checkPass"/><span class="state" v-show="isPassRight"></span><span class="alert" v-show="isPassWrong"><em></em>密码中只能包含数字,字母,下划线</span></div>
-			<div class="checkCode"><input type="text" placeholder="验证码" v-model="checkcode"/> <img :src="check_code[i].url" alt="" /> <span class="exchange" @click="change">看不清换一张</span></div>
+			<div class="password"><input type="password" placeholder="请输入密码" v-model="passWord" @blur="checkPass"/><span class="state" v-show="isPassRight"></span><span class="alert" v-show="isPassWrong"><em></em>请输入正确的密码,密码中只能包含数字,字母,下划线</span></div>
+			<div class="checkCode"><input type="text" placeholder="验证码" v-model="checkcode"/></span><span class="alert" v-show="isCheckWrong"><em></em>请输入正确的验证码</span><img :src="check_code[i].url" alt="" /> <span class="exchange" @click="change">看不清换一张</span></div>
 			<div class="autolog">
-				<input id="autologin" type="checkbox"/> <label for="autologin">自动登录</label>    <a href="">忘记密码</a>
+				<input id="autologin" type="checkbox" v-model="isRemmber"/> <label for="autologin">自动登录</label>    <a href="">忘记密码</a>
 			
 			</div>
 			<div style="margin-bottom: 20px;"><button class="login" @click="login">登录</button> <router-link :to="{name:'Reg',params:{city}}"><button class="reg">会员注册</button></router-link></div>
@@ -39,10 +39,15 @@
 		        	isNumWrong:0,
 		        	isPassRight:0,
 		        	isPassWrong:0,
+		        	isCheckWrong:0,
+		        	isRemmber:false,
 		        	check_code:[{url:"/static/check_code/code1.jpeg",code:"ocfb"},{url:"/static/check_code/code2.jpeg",code:"ceec"},{url:"/static/check_code/code3.jpeg",code:"nhmm"},{url:"/static/check_code/code4.jpeg",code:"hwyh"},{url:"/static/check_code/code5.jpeg",code:"nmxh"},{url:"/static/check_code/code6.jpeg",code:"tyqh"}],
 				i:0,
 		        }
 		},
+	
+			
+			
 		methods:{
 			checkNum(){
 				var reg=/^1[34578]\d{9}$/
@@ -73,7 +78,36 @@
 				}
 			},
 			login(){
-				this.$router.push({path:"/index"})
+				if(this.isNumRight&&this.isPassRight){
+					if(this.checkcode&&this.checkcode==this.check_code[this.i].code){
+						this.isCheckWrong=0
+						if(this.isRemmber==true){
+							window.localStorage.passWord=this.passWord
+							window.localStorage.phoneNumber=this.phoneNumber
+						}else{
+							window.localStorage.removeItem('passWord')
+						}
+							this.$http.post('/api/login',{
+									userNumber:this.phoneNumber,
+									passWord:this.passWord
+								},{emulateJSON:true}).then((res)=>{
+							if(res.body!="error"){
+								localStorage.userid=res.body;
+							this.$store.commit('changeuser',res.body)
+							this.$router.push({path:"/index"})
+							}else{
+								alert("账号或密码错误,请重新输入")
+							}
+						},(err)=>{
+							console.log(1,err)
+						})
+						
+					}else{
+						 	this.isCheckWrong=1
+					}
+				}else{
+					alert("请输入完整的账号密码信息!")
+				}
 			},
 			change(){
 				this.i=parseInt(Math.random()*7)
@@ -81,7 +115,14 @@
 		},
 		components:{Topbar},
 		created:function(){
+			this.change();
 			this.city=this.$route.params.city
+			if(window.localStorage.passWord!=""){
+				this.isRemmber=true;
+				this.phoneNumber=window.localStorage.phoneNumber
+				window.localStorage.passWord=this.passWord
+				this.checkNum()
+			}
 		}
 		
 	}
@@ -115,7 +156,7 @@
 			background: white;
 			padding: 0 40px;
 			position: absolute;
-			right: 410px;
+			right:10%;
 			top: 40px;
 			.title_wrap{
 				margin:25px 0 15px 0;

@@ -18,11 +18,18 @@ export default {
 		}
 	},
 	created(){
-//		var match=
 		if(this.$route.name=="guide"||this.$route.path.split('/')[1]=="cart"){
 			this.isShowHeader=0;
 			this.isShowFooter=0
-		} 
+		}else if(this.$route.name=="Login"||this.$route.name=="Reg"){
+			this.isShowHeader=0;
+			this.isShowFooter=1;
+		}else if(this.$route.name!="Login"&&this.$route.name!=="Reg"){
+			this.isShowHeader=1;
+			this.isShowFooter=1;
+		}else{
+			
+		}
 	},
 	beforeUpdate(){
 		if(this.$route.name=="guide"||this.$route.path.split('/')[1]=="cart"){
@@ -43,6 +50,9 @@ export default {
 	},
 	components:{
 		Header,Footer
+	},
+	beforeDestroy(){
+		window.localStorage.removeItem("passWord")
 	}
 }
 </script>

@@ -21,7 +21,7 @@
 		data(){
 			return{
 				infoShow:[],
-				pageinfo:{infoNum:"",everyNum:8},
+				pageinfo:{infoNum:"",everyNum:16},
 				showStart:0,
 				 info:[{
 						shop: "汽车城1",
@@ -296,11 +296,17 @@
 		overflow: hidden;
 		width: 1181px;
 		margin: 40px auto;
+		
 		.wrap{
-			float: left;
+			/*float: left;*/
+			display: flex;
+		justify-content: flex-start;
+		flex-wrap: wrap;
+			width: 100%;
 			margin:0 20px 30px 30px;
 			.everyshop{
-				margin-bottom: 10px;
+				margin-right: 20px;
+				margin-bottom: 15px;
 				box-shadow: 0 1px 1px 1px rgba(0,0,0,0.1);
 			}
 		}

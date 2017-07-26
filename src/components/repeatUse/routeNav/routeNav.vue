@@ -18,12 +18,19 @@
 		created(){
 //			console.log(this.$route)
 			var info=this.$route.path.split("/")
-			if(info[1]=="index")
+			if(info[1]=="index"){
 				this.firstInfo="首页"
-			switch(info[2]){
+				switch(info[2]){
 				case "city":
 				this.secondInfo="城市列表"
 				break;
+				case "store":
+				
+				this.secondInfo=this.$route.params.shopName;
+				break;
+				
+			}
+				
 			}
 		}
 	}

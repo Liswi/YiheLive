@@ -4,10 +4,10 @@
 <div class="headtitle"><img src="../img/logo.png" alt="" /><h1>{{title}}</h1></div>
 <div class="cont_wrap">
 		<div class="login_block">
-			<div class="number"><input type="number" placeholder="请输入手机号" v-model="phoneNum" @blur="checkNum"/> <span class="state" v-show="isNumRight"></span><span class="alert" v-show="isNumWrong"><em></em>手机号码不正确,请重新输入</span></div>
+			<div class="number"><input type="number" placeholder="请输入手机号" v-model="phoneNum" @blur="checkNum"/> <span class="state" v-show="isNumRight"></span><span class="alert" v-show="isNumWrong"><em></em>手机号码不正确,请重新输入</span><span class="alert" v-show="isNumHave"><em></em>此手机号码已经注册过,请直接登录</span></div>
 			<div class="password"><input type="password" placeholder="请输入密码(6-20位号码字符)" v-model="passWord" @blur="checkPass" @input="checkPass3"/><span class="state" v-show="isPassRight"></span><span class="alert" v-show="isPassWrong"><em></em>密码只能包含数字,字母,下划线</span></div>
 			<div class="password2"><input type="password" placeholder="请再次输入密码"  v-model="passWord2" @blur="checkPass2" @input="checkPass3"/><span class="state" v-show="isPass2Right"></span><span class="alert" v-show="isPass2Wrong"><em></em>两次密码不一致</span></div>
-			<div class="checkCode"><input type="text" placeholder="验证码" /> <img :src="check_code[i].url" alt="" /> <span class="exchange" @click="change">看不清换一张</span></div>
+			<div class="checkCode"><input type="text" placeholder="验证码"  v-model="checkcode"/> <span class="alert" v-show="isCheckWrong"><em></em>请输入正确的验证码</span><img :src="check_code[i].url" alt="" /> <span class="exchange" @click="change">看不清换一张</span></div>
 			<div class="phone_check">
 				<input type="text" placeholder="手机验证码" /><button class="phone_checkcode">获取验证码</button>
 			</div>
@@ -35,6 +35,9 @@
 		        	isPassWrong:0,
 		        	isPass2Right:0,
 		        	isPass2Wrong:0,
+		        	checkcode:"",
+		        	isCheckWrong:0,
+		        	isNumHave:0,
 		        	check_code:[{url:"/static/check_code/code1.jpeg",code:"ocfb"},{url:"/static/check_code/code2.jpeg",code:"ceec"},{url:"/static/check_code/code3.jpeg",code:"nhmm"},{url:"/static/check_code/code4.jpeg",code:"hwyh"},{url:"/static/check_code/code5.jpeg",code:"nmxh"},{url:"/static/check_code/code6.jpeg",code:"tyqh"}],
 				i:0,
 		        }
@@ -104,7 +107,30 @@
 				}}
 			},
 			reg(){
-				
+				if(this.isNumRight&&this.isPassRight&&this.isPass2Right){
+					if(this.checkcode&&this.checkcode==this.check_code[this.i].code){
+						this.isCheckWrong=0
+						this.$http.post('/api/reg',{
+									userNumber:this.phoneNum,
+									passWord:this.passWord
+								},{emulateJSON:true}).then((res)=>{
+							if(res.body==1){
+								alert("注册成功,请点击登录");
+								window.localStorage.phoneNumber=this.phoneNum
+//							this.$router.push({path:"/login"})
+							}else if(res.body==2){
+								window.localStorage.phoneNumber=this.phoneNum
+								this.isNumHave=1;
+							}else{
+								alert("未知错误,请重试")
+							}
+						},function(err){
+							console.log(1,err)
+						})
+					}else{
+						this.isCheckWrong=1;
+					}
+				}
 			},
 			change(){
 				this.i=parseInt(Math.random()*7)
@@ -146,7 +172,7 @@
 			background: white;
 			padding: 0 40px;
 			position: absolute;
-			right: 410px;
+			right: 10%;
 			top: 40px;
 			div{
 				margin-bottom: 30px;	

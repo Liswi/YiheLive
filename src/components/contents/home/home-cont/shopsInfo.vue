@@ -18,7 +18,7 @@
 								</div>
 								<div class="position">
 									<span></span>
-									<a href="">{{bitem.localion}}</a>
+									<a href="">{{bitem.location}}</a>
 								</div>
 							</div>
 						</div>
@@ -36,17 +36,28 @@
 
 <style lang="less">
 			.list_item {
-						width: 271px;
-						float: left;
+						width: 261px;
+						/*height: ;*/
+						/*float: right;*/
+					
 						margin-right: 10px;
 						margin-top: 1px;
 						background-color: #fff;
+						a{
+							width: 100%;
+							/*display: inline-block;*/
+							img{
+								width: 100%;
+							}
+						}
 						/*cursor:pointer;*/
 						&:hover{
 						box-shadow: 0 0 1px 1px rgba(0,0,0,0.1);
 						}
 						.list_top {
 							position: relative;
+							/*height: 100px;*/
+							overflow: hidden;
 							p {
 								width: 100%;
 								font-size: 18px;

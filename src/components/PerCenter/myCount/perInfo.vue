@@ -54,7 +54,7 @@
 			</li>
 			<li>
 				<p class="P_left" style="height: 40px;"></p>
-				<button class="P-right submitBtn">
+				<button class="P-right submitBtn" @click="submit">
 					确认提交
 				</button>
 			</li>
@@ -74,23 +74,44 @@
 				birthday:{
 					year:[1991,1992,1993,1994,1995,1996,1997],
 					month:[1,2,3,4,5,6,7,8,9,10,11,12],
-					day:[1,2,3,4,5,6,7,8,9,10]
+					day:['01','02','03','04','05','06','07','08','09','10','11','12',13,14,15,16,17,18,19,20]
 				},
-				picked: "0",
+				picked: 1,
 				msg: "个人资料",
 				successData: {
-					headPic: "/static/img/headPic1.png",
+					headPic: "",
 					birthday:{
 						year:1993,
 						month:10,
 						day:4
 					},
-					nick_name:"义",
-					phone:"18317855654"
+					nick_name:"",
+					phone:""
 				}
 			}
+		},
+		created(){
+			this.successData.nick_name=this.$store.state.user.name
+			this.$http.get('/api/myaccount',{params:{userid:this.$store.state.userid}},{emulateJSON:true}).then(data=>{
+				this.successData.phone=data.body.data.userNumber;
+				this.successData.headPic=data.body.data.img;
+				this.picked=data.body.data.sex=="男"?1:0;
+				this.successData.birthday.year=data.body.data.birthday.split("-")[0]
+				this.successData.birthday.month=data.body.data.birthday.split("-")[1]
+				this.successData.birthday.day=data.body.data.birthday.split("-")[2]
+				console.log(this.successData.birthday)
+		},err=>{
+		})
+	},
+		beforeUpdate(){
+		this.successData.nick_name=this.$store.state.user.name
+		},
+		methods:{
+		submit(){
+			
 		}
-	}
+		}
+		}
 </script>
 
 <style lang="less" scoped>

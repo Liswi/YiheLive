@@ -12,7 +12,8 @@
 			</div>
 			
 			<div class="userMenu">
-				<router-link to="" class="login">登录</router-link><router-link to="" class="reg">注册</router-link><router-link to=""  >我的订单</router-link><router-link to=""  >我的消息</router-link><router-link to=""  >我是商家</router-link><router-link to=""  ><span class="phoneico icon iconfont icon-dianhua"></span>400-800-8820</router-link>
+				<span v-if="!isLogin">你好，&nbsp;<router-link to="/perCenter" class="login">{{name}}</router-link></span><a to="" class="reg" v-if="!isLogin" ><span @click="exit">退出</span></a>
+				<router-link to="/login" class="login" v-show="isLogin">登录</router-link><router-link to="/reg" class="reg" v-show="isLogin">注册</router-link><router-link to=""  >我的订单</router-link><router-link to=""  >我的消息</router-link><router-link to=""  >我是商家</router-link><router-link to=""  ><span class="phoneico icon iconfont icon-dianhua"></span>400-800-8820</router-link>
 			</div>
 		</div>
 	</div>
@@ -20,16 +21,44 @@
 
 <script>
 	export default{
-		name:"topbar",
+
 		data:function(){
 			return{
-				city:""
+				city:"",
+				isLogin:1,
 			}
 		},
 		created(){
 			this.city=window.localStorage.city
+			this.$store.commit('changeuser',localStorage.userid);
+			if(this.$store.state.userid!=0){
+//				console.log(this.$store.state.userid)
+				this.$http.post('/api/user',{userid:this.$store.state.userid},{emulateJSON:true}).then(res=>{
+					this.isLogin=0;
+					if(!res.body.err){
+						this.$store.commit('changeName',res.body.data.username)	
+					}else{
+						return;
+					}
+				},err=>{
+					console.log(err)
+				})
+			}else{
+				console.log(this.$store.state.userid,"未登录")
+			}
+		},
+		computed:{
+			name(){
+				return this.$store.state.user.name
+			}
 		},
 		methods:{
+			exit(){
+				this.isLogin=1;
+				localStorage.userid=0;
+				this.$router.push({path:"/index"})
+				this.$store.commit("emit")
+			}
 		}
 		
 	}

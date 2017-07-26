@@ -1,8 +1,8 @@
 <template>
 	<div class="brand_list_warp">
-		<div class="list_cont" v-for="(item,index) in srcArr" @click="goStore(index)">
+		<div class="list_cont" v-for="(item,index) in srcArr" @click="goStore(item.name,index)">
 			<div class="cover"></div>
-			<img :src="item" alt="" />	
+			<img :src="item.img" alt="" />	
 			<!--<img src="./img/brand-1.png"/>-->			
 		</div>
 	</div>
@@ -13,17 +13,18 @@
 		name:"",
 		data(){
 			return {
-				srcArr: [],
+//				shopName:["海澜之家旗舰店",""],
+				srcArr: [{name:"One SmAlL SHoP",img:"./img/brand-1.png",shopId:"6"},{name:"居然之家",img:"./img/brand-2.png"},{name:"太平鸟服饰",img:"./img/brand-3.png"},{name:"美特斯邦威",img:"./img/brand-4.png"},{name:"杰克琼斯",img:"./img/brand-5.png"},{name:"阿玛尼",img:"./img/brand-6.png"},{name:"香奈儿",img:"./img/brand-7.png"},{name:"海澜之家旗舰店",img:"./img/brand-8.png"},{name:"海澜之家旗舰店",img:"./img/brand-9.png"},{name:"海澜之家旗舰店",img:"./img/brand-10.png"},{name:"海澜之家旗舰店",img:"./img/brand-11.png"},{name:"波司登羽绒服",img:"./img/brand-12.png"}],
 			}
 		},
-		created:function(){
+		created(){
 			for(var i=0;i<12;i++){
-				this.srcArr[i] = require("./img/brand-"+(i+1)+".png");
+				this.srcArr[i].img = require(this.srcArr[i].img+"");
 			}
 		},
 		methods:{
-			goStore(){
-				this.$router.push({name:"store"})
+			goStore(name,index){
+				this.$router.push({name:"store",params:{shopid:shopId,shopName:name}})
 			}
 		}
 	}

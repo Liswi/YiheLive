@@ -72,15 +72,36 @@
 		name: "",
 		data() {
 			return {
-				userPic: "/static/img/headPic1.png",
-				userName: "义",
-				currentIntegral: 124,
-				remainder:  1220.00,
-				ticket: 2,
-				vip: 2,
+				userPic: "",
+				userName: '当前未登录',
+				currentIntegral: 0,
+				remainder:0,
+				ticket: 0,
+				vip:0,
 				CRM: 2500, //消费额
 				footImg:"/static/img/myAccount-pic1.png"
 			}
+		},
+		created(){
+			console.log("调用了生成")
+			this.userName=this.$store.state.user.name;
+			if(this.$store.state.userid!=0){
+				this.$http.get('/api/myaccount',{params:{userid:this.$store.state.userid}},{emulateJSON:true}).then(data=>{
+					console.log(data)
+					this.currentIntegral=data.body.data.rank;
+					this.remainder=data.body.data.cash;
+					this.ticket=data.body.data.yihequan;
+					this.vip=data.body.data.vip;
+					this.userPic=data.body.data.img;
+					
+				},err=>{
+					alert("初始化数据出错..请刷新重试")
+				})
+			}
+		},
+		beforeUpdate(){
+			console.log("调用了更新")
+			this.userName=this.$store.state.user.name;
 		},
 		methods :{
 //			VIPclass() {
@@ -206,10 +227,10 @@
 							margin-right: 88px;
 							font-size: 14px;
 						}
-					}
-				}
-			}
-		}
+					
+		
+			
+		}}}}
 		.foot{
 		   margin-top: 20px;
 		}

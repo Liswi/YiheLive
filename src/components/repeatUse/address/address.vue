@@ -13,6 +13,20 @@
 					<div class="composite">
 						<span class="star">*</span> 所在地区：
 					</div>
+					<div class="select_addr">
+						<select name="" v-model="province">
+							<option value="" disabled>   省/直辖市</option>
+							<option  v-for="item in provinces">{{item}}</option>
+						</select>
+						<select name="" v-model="city">
+							<option value="" disabled>         市</option>
+							<option  v-for="item in citys">{{item}}</option>
+						</select>
+						<select name="" v-model="county">
+							<option value="" disabled>      县/区</option>
+							<option v-for="item in countys">{{item}}</option>
+						</select>
+					</div>
 				</div>
 				<div class="contents">
 					<div class="composite">
@@ -38,8 +52,47 @@
 </template>
 
 <script>
+	import Address from "./data_address.js"
 	export default {
 		name: "",
+		data(){
+		return{
+			province:"",
+			city:"",
+			county:""
+		}
+		},
+		created(){
+		},
+		computed:{
+			provinces(){
+				var arr=[];
+				for(var item in Address){
+					arr.push(Address[item].region.name)
+				}
+				return arr
+			},
+			citys(){
+				var arr=[];
+						 console.log(this.provinces)
+						 console.log(this.province)
+				  var num=this.provinces.indexOf(this.province)==-1?0:this.provinces.indexOf(this.province)
+				 
+				 for(var item in Address[num].region.state){
+					arr.push(Address[num].region.state[item].name)
+				} 
+				return arr
+			},
+			countys(){
+				var arr=[];
+				var num1=this.provinces.indexOf(this.province)==-1?0:this.provinces.indexOf(this.province)
+				var num2=this.citys.indexOf(this.city)==-1?0:this.citys.indexOf(this.city)
+				for(var item in Address[num1].region.state[num2].city){
+					arr.push(Address[num1].region.state[num2].city[item].name)
+				}
+				return arr
+			}
+		},
 		methods:{
 			goback(){
 				this.$emit("close")
@@ -49,6 +102,17 @@
 </script>
 
 <style lang="less" scoped>
+	.select_addr{
+		display: flex;
+		justify-content: space-between;
+		padding: 0 1 0px;
+		select{
+			width: 140px;
+			height: 35px;
+			text-align: right;
+			font-size: 15px;
+		}
+	}
 	.shopping_box {
 		position: fixed;
 		width: 1920px;

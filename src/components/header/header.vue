@@ -2,7 +2,7 @@
 	<header>
 		<Topbar></Topbar>
 		<div class="header_content">
-			<router-link to="home"><img src="./img/logo.png" alt="" class="logo"/></router-link>
+			<router-link to="/home"><img src="./img/logo.png" alt="" class="logo"/></router-link>
 			<div class="search_block">
 				<span class="shop" :class="{blue:num==1}" @click="switchClass(1)">商家</span>
 				<span class="goods" :class="{blue:num==2}" @click="switchClass(2)">商品</span>
@@ -12,7 +12,7 @@
 			<div class="my">
 					<div class="myinfo">
 						<div class="myYihe" @click="goCenter">
-							<span class="iconfont1 icon-rentou" ></span>我的易和<span class="arrows"></span><em class="news">1</em>
+							<span class="iconfont1 icon-rentou" ></span>我的易和<span class="arrows"></span>
 						</div>
 						<div class="shopcar" @click="goCart">
 							<span class="iconfont1 icon-gouwuche"></span>购物车<span class="arrows"></span><em class="car_goods">0</em>
@@ -44,10 +44,19 @@
 				this.num=n;
 			},
 			goCenter(){
+				if(this.$store.state.userid!=0){
 				this.$router.push({path:'/perCenter'})	
+				}else{
+					this.$router.push({path:'/login'})
+				}
+				
 			},
 			goCart(){
+				if(this.$store.state.userid!=0){
 				this.$router.push({path:'/cart'})	
+				}else{
+				this.$router.push({path:'/login'})
+				}	
 			}
 		},
 	components:{ Topbar, Nav,}

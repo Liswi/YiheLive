@@ -1,48 +1,54 @@
 <template>
 	<div class="store_box">
+		<div id="routeNav">
+						<RouteNav></RouteNav>
+		</div>
+		<keep-alive>
 		<router-view></router-view>
+		</keep-alive>
+
 		<div v-if="isShow">
 		<div class="overall">
 			<div class="choose">
 				<div class="photo">
 					<div class="big_photo">
-						<img :src="imgbig" alt=""/>
+						<img :src="shopInfo.img" alt=""/>
 					</div>
 					<div class="min_photo">
-						<span class="tab_l"></span>
+						<span class="tab_l" @click="last"></span>
 						<ul>
-							<li v-for="item in info.imgs"><img :src="item" @click="tab($event)" /></li>
+							<li v-for="item in shopInfo.imgArr"><img :src="item" @click="tab($event)" /></li>
 
 						</ul>
-						<span class="tab_r"></span>
+						<span class="tab_r" @click="next"></span>
 					</div>
 				</div>
 				<div class="top_center">
 					<div class="writing">
-						<span>海澜之家旗舰店</span>
-						<p>海澜之家旗舰店海澜之家旗舰店海澜之家旗舰店海澜之家旗舰店海澜之家旗舰店海澜之家旗舰店</p>
+						<span>{{shopInfo.shop}}</span>
+						<p>{{shopInfo.abstract}}</p>
 					</div>
 					<div class="center_bottom">
 						<div class="contace">
-							<p><span class="names"></span>李杰</p>
-							<p><span class="phone"></span>18699563265</p>
-							<p><span class="address"></span>浙江省台州市温岭市人民西路281号</p>
+							<p><span class="names"></span>{{shopInfo.name}}</p>
+							<p><span class="phone"></span>{{shopInfo.phone}}</p>
+							<p><span class="address"></span>{{shopInfo.location}}</p>
 						</div>
 						<div class="pub">
 							<span>商家公告 :</span>
-							<p>海澜之家旗舰店海澜之家旗舰店海澜之家旗舰店海澜之家旗舰店海澜之家旗舰店海澜之家旗舰店</p>
+							<p>{{shopInfo.notice}}</p>
 						</div>
 
 					</div>
 				</div>
 				<div class="top_right">
-					<p class="brade">所属品牌：<span>海澜之家</span></p>
+					<p class="brade">所属品牌：<span>原创品牌</span></p>
 					<div class="gcs">
 						<span>综合评分：</span>
 						<div class="twig">
 							<div class="bar"></div>
 						</div>
-						<span class="fen">4.5分</span>
+						<span class="fen">{{shopInfo.rank}}</span>
 					</div>
 					<div class="right_conents">
 						<div class="contents">
@@ -77,7 +83,9 @@
 				<span class="nav" :class="{active:isNav==index+1}" @click="actives(index+1)" v-for="(item,index) in info.options">{{item.icon}}</span>
 			</div>
 			<div class="divs" @click="go" >
-			<div v-if="isNav==1" >我是男上衣</div>
+			<div v-if="isNav==1">
+				<Goods :status="1"></Goods>
+			</div>
 			<div v-if="isNav==2">我是女上衣</div>
 			<div v-if="isNav==3">我是男裤</div>
 			<div v-if="isNav==4">我是女裤</div>
@@ -92,16 +100,17 @@
 </template>
 
 <script>
+	import RouteNav from '@/components/repeatUse/routeNav/routeNav'
+	import Goods from "./goods/goods"
 	export default {
 		name: "",
+		components:{RouteNav,Goods},
 		data() {
 			return {
 				isShow:true,
 				isNav: "1",
-				imgbig: require("./img/pic00.png"),
+				shopInfo:"",
 				info: {
-					name: "",
-					imgs: ["./img/pic00.png", "./img/pic01.jpg", "./img/pic00.png", "./img/pic01.jpg"],
 					options: [{
 						icon: "男上衣"
 					}, {
@@ -126,9 +135,13 @@
 			}else{
 				this.isShow=true
 			}	
-			for(var i = 0; i < this.info.imgs.length; i++) {
-				this.info.imgs[i] = require(this.info.imgs[i] + "")
-			}
+			let name=this.$route.params.shopName
+			this.$http.get("/api/store",{params:{name:name}}).then(data=>{
+				this.shopInfo=data.body	
+				this.shopInfo.imgArr=JSON.parse(this.shopInfo.imgArr)
+			},err=>{
+				console.log(err)
+			})
 		},
 		beforeUpdate(){
 			if(this.$route.matched.length>2){
@@ -140,7 +153,23 @@
 		methods: {
 			tab($event) {
 				//				console.log($event.currentTarget.src)
-				this.imgbig = $event.currentTarget.src
+				this.shopInfo.img = $event.currentTarget.src
+			},
+			last(){
+				       let num=this.shopInfo.imgArr.indexOf(this.shopInfo.img)
+				       if(num==-1||num==0){
+				       	this.shopInfo.img=this.shopInfo.imgArr[this.shopInfo.imgArr.length-1]
+				       }else{
+				       	this.shopInfo.img=this.shopInfo.imgArr[num-1]
+				       }
+			},
+			next(){
+					let num=this.shopInfo.imgArr.indexOf(this.shopInfo.img)
+				       if(num==-1||num==this.shopInfo.imgArr.length-1){
+				       	this.shopInfo.img=this.shopInfo.imgArr[0]
+				       }else{
+				       	this.shopInfo.img=this.shopInfo.imgArr[num+1]
+				       }
 			},
 			go() {
 				this.$router.push({name:"detail"})
@@ -155,10 +184,13 @@
 
 <style lang="less" scoped>
 	.store_box {
-		width: 100%;
 		height: 100%;
 		font-family: "Microsoft Yahei";
 		background: #f2f2f2;
+		#routeNav{
+			width: 1181px;
+			margin: 0 auto;
+		}
 		.overall {
 			position: relative;
 			width: 1181px;
