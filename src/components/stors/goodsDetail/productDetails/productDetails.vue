@@ -193,11 +193,14 @@
 		margin: 20px auto;
 		text-align: left;
 		background: #FFFFFF;
+		border-radius: 5px;
+		overflow: hidden;
 		border: 1px solid #D3D3D3;
 		.details_nav {
 			width: 100%;
 			height: 50px;
-			background: #F2F2F2;
+			background: #f6f6f6;
+			
 			border-bottom: 1px solid #D3D3D3;
 			.nav {
 				border-right: 1px solid #D3D3D3;

@@ -1,14 +1,15 @@
 <template>
 	<div class="outlayer">
+		<div v-wechat-title="$route.meta.title"></div>
 		<div class="contents">
-			<div class="sub">
+			<div class="sub" v-for="item in info">
 				<div class="pic">
-					<img src="./img/1487535290891.jpg" />
+					<img :src="item.img" />
 				</div>
-				<router-link to="" class="text">自家大礼包，送家人送朋友的不二之选！自家大礼包，送家人送朋友的不二之选</router-link>
+				<router-link to="" class="text">{{item.txt}}</router-link>
 				<div class="detailed">
-					<span class="integral">积分：1000</span>
-					<span class="worth">价值 ¥1000</span>
+					<span class="integral">积分：{{item.integrals}}</span>
+					<span class="worth">价值 ¥{{item.worths}}</span>
 				</div>
 				<a href="javascript:;" class="convert" @click="hit">兑换</a>
 			</div>
@@ -40,6 +41,57 @@
 				isHit: false,
 				isHide: false,
 				isWrite: false,
+				info:[{
+					img:require("./img/1487535290891.jpg"),
+					txt:'自家大礼包，送家人送朋友的不二之选！自家大礼包，送家人送朋友的不二之选',
+					integrals:"1000",
+					worths:"1000",
+				},{
+					img:require("./img/1487535290891.jpg"),
+					txt:'自家大礼包，送家人送朋友的不二之选！自家大礼包，送家人送朋友的不二之选',
+					integrals:"1000",
+					worths:"1000",
+				},{
+					img:require("./img/1487535290891.jpg"),
+					txt:'自家大礼包，送家人送朋友的不二之选！自家大礼包，送家人送朋友的不二之选',
+					integrals:"1000",
+					worths:"1000",
+				},{
+					img:require("./img/1487535290891.jpg"),
+					txt:'自家大礼包，送家人送朋友的不二之选！自家大礼包，送家人送朋友的不二之选',
+					integrals:"1000",
+					worths:"1000",
+				},{
+					img:require("./img/1487535290891.jpg"),
+					txt:'自家大礼包，送家人送朋友的不二之选！自家大礼包，送家人送朋友的不二之选',
+					integrals:"1000",
+					worths:"1000",
+				},{
+					img:require("./img/1487535290891.jpg"),
+					txt:'自家大礼包，送家人送朋友的不二之选！自家大礼包，送家人送朋友的不二之选',
+					integrals:"1000",
+					worths:"1000",
+				},{
+					img:require("./img/1487535290891.jpg"),
+					txt:'自家大礼包，送家人送朋友的不二之选！自家大礼包，送家人送朋友的不二之选',
+					integrals:"1000",
+					worths:"1000",
+				},{
+					img:require("./img/1487535290891.jpg"),
+					txt:'自家大礼包，送家人送朋友的不二之选！自家大礼包，送家人送朋友的不二之选',
+					integrals:"1000",
+					worths:"1000",
+				},{
+					img:require("./img/1487535290891.jpg"),
+					txt:'自家大礼包，送家人送朋友的不二之选！自家大礼包，送家人送朋友的不二之选',
+					integrals:"1000",
+					worths:"1000",
+				},{
+					img:require("./img/1487535290891.jpg"),
+					txt:'自家大礼包，送家人送朋友的不二之选！自家大礼包，送家人送朋友的不二之选',
+					integrals:"1000",
+					worths:"1000",
+				}]
 			}
 		},
 		methods: {

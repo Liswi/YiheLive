@@ -1,5 +1,6 @@
 <template>
 		<div>
+			<div v-wechat-title="$route.meta.title"></div>
 			<Topbar></Topbar>
 			<div class="cart_wrap">
 				<div class="cart_content">

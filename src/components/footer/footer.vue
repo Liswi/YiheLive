@@ -45,10 +45,10 @@
 					<router-link to="">关于易和</router-link>
 				</h1>
 					<h3>
-					<router-link to="">新用户注册</router-link>
+					<router-link :to="{name:'logon'}">新用户注册</router-link>
 				</h3>
 					<h3>
-					<router-link to="">支付方式</router-link>
+					<router-link :to="{name:'money'}">支付方式</router-link>
 					
 				</h3>
 				</li>
@@ -57,13 +57,13 @@
 					<router-link to="">快递说明</router-link>
 				</h1>
 					<h3>
-					<router-link to="">验货与签收</router-link>
+					<router-link :to="{name:'express'}">验货与签收</router-link>
 				</h3>
 					<h3>
-					<router-link to="">退换货规则</router-link>
+					<router-link :to="{name:'salesReturn'}">退换货规则</router-link>
 				</h3>
 					<h3>
-					<router-link to="">配送方式</router-link>
+					<router-link :to="{name:'distribution'}">配送方式</router-link>
 				</h3>
 				</li>
 				<li>
@@ -71,10 +71,10 @@
 					<router-link to="">关于我们</router-link>
 				</h1>
 					<h3>
-					<router-link to="">公司简介</router-link>
+					<router-link :to="{name:'company'}">公司简介</router-link>
 				</h3>
 					<h3>
-					<router-link to="">积分介绍</router-link>
+					<router-link :to="{name:'Integral'}">积分介绍</router-link>
 				</h3>
 				</li>
 			</ul>

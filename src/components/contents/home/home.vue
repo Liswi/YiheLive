@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<div v-wechat-title="$route.meta.title"></div> 
 		<SlidePic v-if="isShow"></SlidePic>
 		<div class="wrap" v-if="isShow">
 	     <TopImg></TopImg>

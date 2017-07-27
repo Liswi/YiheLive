@@ -42,6 +42,7 @@
 		data() {
 			return {
 				num:0,
+				timer:'',
 				isShow:false,
 				scrollBarData:[],
 				showIndex:[],
@@ -132,10 +133,11 @@
 				this.tab(0)
 			},
 			tab(data) {
+				clearInterval(this.timer);
 				var nowST = document.body.scrollTop;
 				var tagST = 1250 + data * 758;
 				var speed=50;
-				var timer = setInterval(function() {	
+				 this.timer = setInterval(()=>{	
 					if(document.body.scrollTop>tagST){
 						document.body.scrollTop -= speed
 						speed-=1
@@ -143,7 +145,7 @@
 							speed=20
 						}
 					if(document.body.scrollTop <= tagST) {
-						clearInterval(timer);
+						clearInterval(this.timer);
 					}
 					}else if(document.body.scrollTop<tagST){
 						document.body.scrollTop += speed
@@ -152,10 +154,10 @@
 							speed=20
 						}
 					if(document.body.scrollTop >= tagST) {
-						clearInterval(timer);
+						clearInterval(this.timer);
 					}
 					}else{
-						clearInterval(timer);
+						clearInterval(this.timer);
 					}
 					
 				}, 5)

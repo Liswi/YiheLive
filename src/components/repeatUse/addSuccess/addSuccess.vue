@@ -6,7 +6,7 @@
 			</div>
 			<div class="btn">
 				<span class="but" @click="goback">继续购物</span>
-				<span class="but r">查看购物车</span>
+				<span class="but r" @click="goCart">查看购物车</span>
 			</div>
 		</div>
 	</div>
@@ -18,6 +18,14 @@
 		methods: {
 			goback(){
 				this.$emit("close")
+			},
+			goCart(){
+				if(this.$store.state.userid!=0){
+					this.$router.push("/cart")
+				}else{
+					this.$router.push("/login")
+				}
+				
 			}
 		}
 	}
@@ -69,6 +77,7 @@
 					height: 45px;
 					line-height: 45px;
 					font-weight: 100;
+					cursor: pointer;
 				}
 				.r{
 					background: #F46B2B;

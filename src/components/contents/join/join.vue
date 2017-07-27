@@ -1,5 +1,6 @@
 <template>
 	<div class="box">
+		<div v-wechat-title="$route.meta.title"></div>
 		<div class="box-top">
 			<div class="top-center">
 				<div class="top-left">

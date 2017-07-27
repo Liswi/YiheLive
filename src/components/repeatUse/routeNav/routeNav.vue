@@ -1,37 +1,19 @@
 <template>
 	<div class="routeNav">
 		<span>您当前的位置:</span>
-		<span>{{firstInfo}}</span>
-			<em></em>
-		<span>{{secondInfo}}</span>
+		<span>{{obj.firstInfo}}</span>
+			<em v-if="obj.secondInfo"></em>
+		<span>{{obj.secondInfo}}</span>
+			<em v-if="obj.thirdInfo"></em>
+		<span>{{obj.thirdInfo}}</span>
 	</div>
 </template>
 
 <script>
 	export default{
-		data(){
-			return{
-				firstInfo:"",
-				secondInfo:""
-			}
-		},
+		props:["obj"],
 		created(){
-//			console.log(this.$route)
-			var info=this.$route.path.split("/")
-			if(info[1]=="index"){
-				this.firstInfo="首页"
-				switch(info[2]){
-				case "city":
-				this.secondInfo="城市列表"
-				break;
-				case "store":
-				
-				this.secondInfo=this.$route.params.shopName;
-				break;
-				
-			}
-				
-			}
+			
 		}
 	}
 </script>

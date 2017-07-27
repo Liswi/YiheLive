@@ -6,6 +6,10 @@ const store = new Vuex.Store({
     userid:0,
     user:{
     		
+    },
+    store:{
+    		name:"",
+    		detail:"",
     }
   },
   mutations: {
@@ -18,6 +22,12 @@ const store = new Vuex.Store({
     emit(state){
     		state.userid=0
     		state.user={};
+    },
+    changeStore(state,n){
+    		state.store.name=n
+    },
+    changeDetail(state,n){
+    		state.store.detail=n
     }
   }
 })

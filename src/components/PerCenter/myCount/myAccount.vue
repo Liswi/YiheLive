@@ -26,7 +26,7 @@
 						<div class="lineCover"></div>
 					</div>
 					<div class="item_Cover">
-						<div class="item">
+						<div class="item" style="background: #FF6D25;">
 							<i>V1</i>
 						</div>
 						<div class="item">
@@ -83,7 +83,6 @@
 			}
 		},
 		created(){
-			console.log("调用了生成")
 			this.userName=this.$store.state.user.name;
 			if(this.$store.state.userid!=0){
 				this.$http.get('/api/myaccount',{params:{userid:this.$store.state.userid}},{emulateJSON:true}).then(data=>{
@@ -100,7 +99,6 @@
 			}
 		},
 		beforeUpdate(){
-			console.log("调用了更新")
 			this.userName=this.$store.state.user.name;
 		},
 		methods :{

@@ -1,12 +1,9 @@
 <template>
 	<div class="store_box">
 		<div id="routeNav">
-						<RouteNav></RouteNav>
+				<RouteNav :obj="routeNav"></RouteNav>
 		</div>
-		<keep-alive>
 		<router-view></router-view>
-		</keep-alive>
-
 		<div v-if="isShow">
 		<div class="overall">
 			<div class="choose">
@@ -17,7 +14,7 @@
 					<div class="min_photo">
 						<span class="tab_l" @click="last"></span>
 						<ul>
-							<li v-for="item in shopInfo.imgArr"><img :src="item" @click="tab($event)" /></li>
+							<li v-for="item in shopInfo.imgArr"><img :src="item" @mouseenter="tab($event)" /></li>
 
 						</ul>
 						<span class="tab_r" @click="next"></span>
@@ -84,7 +81,7 @@
 			</div>
 			<div class="divs" @click="go" >
 			<div v-if="isNav==1">
-				<Goods :status="1"></Goods>
+				<Goods :status="1" :id="id"></Goods>
 			</div>
 			<div v-if="isNav==2">我是女上衣</div>
 			<div v-if="isNav==3">我是男裤</div>
@@ -109,6 +106,12 @@
 			return {
 				isShow:true,
 				isNav: "1",
+				id:"",
+				routeNav:{
+					firstInfo:"",
+					secondInfo:"",
+					thirdInfo:""
+				},
 				shopInfo:"",
 				info: {
 					options: [{
@@ -134,13 +137,33 @@
 				this.isShow=false
 			}else{
 				this.isShow=true
+			}
+			let info=this.$route.path.split("/")
+			if(info[1]=="index"){
+				this.routeNav.firstInfo="首页"
+				switch(info[2]){
+				case "city":
+				this.routeNav.secondInfo="城市列表"
+				break;
+				case "store":
+				this.routeNav.secondInfo=this.$store.state.store.name||sessionStorage.store;
+					switch(info[3]){
+						case "detail":
+						this.routeNav.thirdInfo=this.$store.state.store.detail||sessionStorage.detail
+						break;
+					}
+				break;
+				
 			}	
-			let name=this.$route.params.shopName
-			this.$http.get("/api/store",{params:{name:name}}).then(data=>{
+			}
+			this.id=this.$route.params.shopid||sessionStorage.id
+			
+			this.$http.get("/api/store",{params:{id:this.id}}).then(data=>{
 				this.shopInfo=data.body	
 				this.shopInfo.imgArr=JSON.parse(this.shopInfo.imgArr)
 			},err=>{
 				console.log(err)
+				this.$router.push("/404");
 			})
 		},
 		beforeUpdate(){
@@ -148,7 +171,25 @@
 				this.isShow=false
 			}else{
 				this.isShow=true
+			};
+				let info=this.$route.path.split("/")
+			if(info[1]=="index"){
+				this.routeNav.firstInfo="首页"
+				switch(info[2]){
+				case "city":
+				this.routeNav.secondInfo="城市列表"
+				break;
+				case "store":
+				this.routeNav.secondInfo=this.$store.state.store.name||sessionStorage.store;
+					switch(info[3]){
+						case "detail":
+						this.routeNav.thirdInfo=this.$store.state.store.detail||sessionStorage.detail
+						break;
+					}
+				break;
+				
 			}	
+			}
 		},
 		methods: {
 			tab($event) {
@@ -186,7 +227,7 @@
 	.store_box {
 		height: 100%;
 		font-family: "Microsoft Yahei";
-		background: #f2f2f2;
+		background: #FFFffc;
 		#routeNav{
 			width: 1181px;
 			margin: 0 auto;
@@ -210,6 +251,7 @@
 				padding: 20px;
 				overflow: hidden;
 				background: #FFFFFF;
+				box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
 				.photo {
 					float: left;
 					width: 360px;
@@ -414,7 +456,7 @@
 			.details_nav {
 				width: 100%;
 				height: 50px;
-				background: #F2F2F2;
+				background: #f6f6f6;
 				border-bottom: 1px solid #D3D3D3;
 				.nav {
 					border-right: 1px solid #D3D3D3;

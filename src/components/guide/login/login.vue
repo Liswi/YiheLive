@@ -1,5 +1,6 @@
 <template>
 <div>
+	<div v-wechat-title="$route.meta.title"></div> 
 <Topbar :city="city"></Topbar>
 <div class="headtitle"><img src="../img/logo.png" alt="" /><h1>{{title}}</h1></div>
 <div class="cont_wrap">
@@ -10,7 +11,7 @@
 			<div class="password"><input type="password" placeholder="请输入密码" v-model="passWord" @blur="checkPass"/><span class="state" v-show="isPassRight"></span><span class="alert" v-show="isPassWrong"><em></em>请输入正确的密码,密码中只能包含数字,字母,下划线</span></div>
 			<div class="checkCode"><input type="text" placeholder="验证码" v-model="checkcode"/></span><span class="alert" v-show="isCheckWrong"><em></em>请输入正确的验证码</span><img :src="check_code[i].url" alt="" /> <span class="exchange" @click="change">看不清换一张</span></div>
 			<div class="autolog">
-				<input id="autologin" type="checkbox" v-model="isRemmber"/> <label for="autologin">自动登录</label>    <a href="">忘记密码</a>
+				<input id="autologin" type="checkbox" v-model="isRemmber"/> <label for="autologin">记住密码</label>    <a href="">忘记密码</a>
 			
 			</div>
 			<div style="margin-bottom: 20px;"><button class="login" @click="login">登录</button> <router-link :to="{name:'Reg',params:{city}}"><button class="reg">会员注册</button></router-link></div>
@@ -83,6 +84,8 @@
 						this.isCheckWrong=0
 						if(this.isRemmber==true){
 							window.localStorage.passWord=this.passWord
+							sessionStorage.passWord=this.passWord
+							sessionStorage.phoneNumber=this.phoneNumber
 							window.localStorage.phoneNumber=this.phoneNumber
 						}else{
 							window.localStorage.removeItem('passWord')
@@ -92,7 +95,7 @@
 									passWord:this.passWord
 								},{emulateJSON:true}).then((res)=>{
 							if(res.body!="error"){
-								localStorage.userid=res.body;
+								sessionStorage.userid=res.body;
 							this.$store.commit('changeuser',res.body)
 							this.$router.push({path:"/index"})
 							}else{
@@ -117,11 +120,13 @@
 		created:function(){
 			this.change();
 			this.city=this.$route.params.city
-			if(window.localStorage.passWord!=""){
+//			console.log(localStorage.passWord)
+			if(window.localStorage.passWord){
 				this.isRemmber=true;
 				this.phoneNumber=window.localStorage.phoneNumber
-				window.localStorage.passWord=this.passWord
+				this.passWord=window.localStorage.passWord
 				this.checkNum()
+				this.checkPass()
 			}
 		}
 		

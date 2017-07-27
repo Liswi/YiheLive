@@ -1,7 +1,7 @@
 <template>
 	<div class="city_list">
 		<div class="city_wrap">
-				<RouNav></RouNav>
+				<RouNav :obj="routeNav"></RouNav>
 				<h3>当前城市: <div class="hot_city" style="font-size: 20px;">{{currCity}}</div></h3>
 				<h3>热门城市: <div class="hot_city">哈尔滨</div> <div class="hot_city">洛阳</div></h3>
 				<h3>最近访问: <div class="hot_city" v-for="item in recCity">{{item}}</div> </h3>
@@ -20,6 +20,7 @@
 		},
 		data(){
 			return{
+				routeNav:{},
 				currCity:"",
 				recCity:[],
 				cityList:[{title:"A",list:["安阳"]},{title:"B",list:["北京","本溪","包头"]},{title:"C",list:["长春"]},{title:"D",list:["丹东","大连"]},{title:"F",list:["抚顺"]},{title:"H",list:["哈尔滨","邯郸","菏泽","呼和浩特",'衡水']},{title:"J",list:["济南","焦作","锦州","吉林","济宁"]},{title:"K",list:["开封"]},{title:"L",list:["临沂","洛阳"]},{title:"N",list:["南京","南昌"]},{title:"Q",list:["秦皇岛","青岛"]},{title:"S",list:["石家庄","上海"]},{title:"T",list:["太原","唐山","天津","泰安"]},{title:"W",list:["威海市","武汉","无锡","潍坊"]},{title:"X",list:["西安","邢台","新乡"]},{title:"Y",list:["烟台"]},{title:"Z",list:["张家口","淄博","郑州","枣庄"]}
@@ -29,6 +30,24 @@
 		created(){
 			this.currCity=window.localStorage.city
 			this.recCity=window.localStorage.recentCity
+			let info=this.$route.path.split("/")
+			if(info[1]=="index"){
+				this.routeNav.firstInfo="首页"
+				switch(info[2]){
+				case "city":
+				this.routeNav.secondInfo="城市列表"
+				break;
+				case "store":
+				this.routeNav.secondInfo=this.$store.state.store.name||sessionStorage.store;
+					switch(info[3]){
+						case "detail":
+						this.routeNav.thirdInfo=this.$store.state.store.detail||sessionStorage.detail
+						break;
+					}
+				break;
+				
+			}	
+			}
 		},
 		methods:{
 			getCity(e){

@@ -30,7 +30,9 @@
 		},
 		created(){
 			this.city=window.localStorage.city
-			this.$store.commit('changeuser',localStorage.userid);
+			if(sessionStorage.userid){
+					this.$store.commit('changeuser',sessionStorage.userid);
+			}
 			if(this.$store.state.userid!=0){
 //				console.log(this.$store.state.userid)
 				this.$http.post('/api/user',{userid:this.$store.state.userid},{emulateJSON:true}).then(res=>{
@@ -55,7 +57,7 @@
 		methods:{
 			exit(){
 				this.isLogin=1;
-				localStorage.userid=0;
+				sessionStorage.userid=0;
 				this.$router.push({path:"/index"})
 				this.$store.commit("emit")
 			}

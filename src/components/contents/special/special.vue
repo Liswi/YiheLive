@@ -1,5 +1,6 @@
 <template>
 	<div >
+		<div v-wechat-title="$route.meta.title"></div>
 		<SlidePic></SlidePic>
 		<div class="limitNum">
 			<div class="list_title"><h2>限量<span>抢购</span></h2>每日精选12款特价商品,天天送不停</div>

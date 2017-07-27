@@ -1,5 +1,6 @@
 <template>
 <div>
+	<div v-wechat-title="$route.meta.title"></div> 
 <Topbar :city="city"></Topbar>
 <div class="headtitle"><img src="../img/logo.png" alt="" /><h1>{{title}}</h1></div>
 <div class="cont_wrap">

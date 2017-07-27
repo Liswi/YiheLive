@@ -1,5 +1,6 @@
 <template>
 	<div class="warp">
+		<div v-wechat-title="$route.meta.title"></div>
 		<div class="personal">
 			<div class="leftbar">
 				<h2 class="left_title"><span></span>个人中心</h2>

@@ -1,10 +1,10 @@
 <template>
 	<div class="specialNum">
 		<div class="goods_wrap">
-			<div v-for="item in specialGoods" class="special_goods">
+			<div v-for="item in goods" class="special_goods" @click="goDetail(item.id,item.goodsName,item.kind)">
 				<img :src="item.img" alt="" class="goods_img" />
-				<p class="goods_describe">{{item.descri}}</p>
-				<div class="price"><span class="now_price">¥{{item.price}}</span><span class="last_price">¥{{item.lastprice}}</span></div>
+				<p class="goods_describe">{{item.abstract}}</p>
+				<div class="price"><span class="now_price">¥{{item.price}}</span><span class="last_price">¥{{item.lastPrice}}</span></div>
 			</div>
 		</div>
 	</div>
@@ -13,101 +13,34 @@
 <script>
 	export default {
 		name: "",
-		props:['status'],
+		props:['status','id'],
 		data() {
 			return {
-				specialGoods: [{
-					img: "./img/goods_01.png",
-					descri: "我是一个超级好吃的小甜瓜",
-					price: 11.8,
-					lastprice: 20
-				},
-				{
-					img: "./img/goods_02.png",
-					descri: "我是一个超级好吃的小苹果，我是一个超级好吃的小苹果",
-					price: 11.8,
-					lastprice: 20
-				}, {
-					img: "./img/goods_03.png",
-					descri: "我是一个超级好吃的小橙子",
-					price: 11.8,
-					lastprice: 20
-				}, {
-					img: "./img/goods_04.png",
-					descri: "我是一个超级好吃的火龙果",
-					price: 11.8,
-					lastprice: 20
-				}, {
-					img: "./img/goods_05.png",
-					descri: "我是一个超级好吃的圣女果",
-					price: 11.8,
-					lastprice: 20
-				},
-//				{
-//					img: "./img/goods_01.png",
-//					descri: "我是一个超级好吃的小甜瓜",
-//					price: 11.8,
-//					lastprice: 20
-//				}, {
-//					img: "./img/goods_02.png",
-//					descri: "我是一个超级好吃的小苹果",
-//					price: 11.8,
-//					lastprice: 20
-//				}, {
-//					img: "./img/goods_03.png",
-//					descri: "我是一个超级好吃的小橙子",
-//					price: 11.8,
-//					lastprice: 20
-//				}, {
-//					img: "./img/goods_04.png",
-//					descri: "我是一个超级好吃的火龙果",
-//					price: 11.8,
-//					lastprice: 20
-//				}, {
-//					img: "./img/goods_05.png",
-//					descri: "我是一个超级好吃的圣女果",
-//					price: 11.8,
-//					lastprice: 20
-//				}, {
-//					img: "./img/goods_01.png",
-//					descri: "我是一个超级好吃的小甜瓜",
-//					price: 11.8,
-//					lastprice: 20
-//				}, {
-//					img: "./img/goods_02.png",
-//					descri: "我是一个超级好吃的小苹果",
-//					price: 11.8,
-//					lastprice: 20
-//				}, {
-//					img: "./img/goods_03.png",
-//					descri: "我是一个超级好吃的小橙子",
-//					price: 11.8,
-//					lastprice: 20
-//				}, {
-//					img: "./img/goods_04.png",
-//					descri: "我是一个超级好吃的火龙果",
-//					price: 11.8,
-//					lastprice: 20
-//				}, {
-//					img: "./img/goods_05.png",
-//					descri: "我是一个超级好吃的圣女果",
-//					price: 11.8,
-//					lastprice: 20
-//				}, {
-//					img: "./img/goods_01.png",
-//					descri: "我是一个超级好吃的小甜瓜",
-//					price: 11.8,
-//					lastprice: 20
-//				}
-			],
+				goods: [],
 			}
 		},
 		created() {	
-			this.$http.get("/api/"+this.status)
-			for(var i = 0; i < this.specialGoods.length; i++) {
-				this.specialGoods[i].img = require(this.specialGoods[i].img + "")
-			}
+			this.$http.get("/api/goods",{params:{id:this.id,status:this.status}}).then(res=>{
+//					console.log(res);
+					if(res.body!="error"){
+						this.goods=res.body
+//						console.log(this.goods)
+					}else{
+						this.$router.push({name:"wrong"})
+					}
+			},err=>{
+				console.log(err)
+				this.$router.push({name:"wrong"})})
+			
 		},
+		methods:{
+			goDetail(n,name,k){
+				this.$store.commit("changeDetail",name);
+				sessionStorage.detail=name
+				sessionStorage.goodsid=n
+				this.$router.push({name:'detail',params:{kind:k,goodsid:n}})
+			}
+		}
 	}
 </script>
 
@@ -124,11 +57,11 @@
 				margin:0 4px;
 				width: 220px;
 				margin-bottom: 20px;
-				border: 2px solid #e1e1e1;
+				border: 1px solid #e1e1e1;
 				background: #FFFFFF;
 				&:hover {
-					border: 2px solid orange;
-					box-shadow: 0 0 1px 1px orange;
+					/*border: 1px solid orange;*/
+					box-shadow: 0 0 2px 0 rgba(0,0,0,0.2);
 				}
 				.goods_img {
 					height: 220px;

@@ -4,12 +4,12 @@
 			<div class="choose">
 				<div class="photo">
 					<div class="big_photo">
-						<img :src="imgbig" alt="" />
+						<img :src="info.img" alt="" />
 					</div>
 					<div class="min_photo">
 						<span class="tab_l"></span>
 						<ul>
-							<li v-for="item in info.imgs"><img :src="item" @click="tab($event)" /></li>
+							<li v-for="(item,index) in info.imgArr"><img :src="item" @mouseover="tab(index)" /></li>
 							
 						</ul>
 						<span class="tab_r"></span>
@@ -17,25 +17,25 @@
 				</div>
 				<div class="top_center">
 					<div class="writing">
-						<span>男士短衬衫</span>
-						<p>海澜之家旗舰店海澜之家旗舰店海澜之家旗舰店海澜之家旗舰店海澜之家旗舰店海澜之家旗舰店海澜之家旗舰店海澜之家旗舰店海澜之家旗舰店海澜之家旗舰店海澜之家旗舰店海澜之家旗舰店海澜之家旗舰店</p>
+						<span>{{info.goodsName}}</span>
+						<p>{{info.abstract}}</p>
 					</div>
 					<div class="opt">
 						<div class="sizes">
 							尺码：
-							<span :class="{pitchOn:isFootage==index+1}" class="select" @click="pitchOns(index+1)" v-for="(item,index) in info.size">{{item.size1}}</span>
+							<span :class="{pitchOn:isFootage==index+1}" class="select" @click="pitchOns(index+1,value)" v-for="(value,key,index) in info.sizeColor">{{key}}</span>
 							<div class="colors">
 								颜色：
-								<span :class="{pitchOn:isColor==index+1}" class="select" @click="pitchOns1(index+1)" v-for="(value,key,index) in info.size[numshow].color">{{key}} <span class="num" v-show="isColor==index+1">剩余<i>{{value}}</i> 件</span></span>
+								<span :class="{pitchOn:isColor==index+1}" class="select" @click="pitchOns1(index+1)" v-for="(value,key,index) in colorArr">{{key}} <span class="num" v-show="isColor==index+1">剩余<i>{{value}}</i> 件</span></span>
 							</div>
 						</div>
 					</div>
 					<div class="useOperter">
 						<div class="price">
 							<span class="min_price">现价 : ￥{{info.price}}</span>
-							<span class="max_price">原价 : ￥{{info.lastprice}}</span>
-							<span class="total ">总价 : ￥{{nums*20}} 元</span>
-							<span class="mans">已有{{info.peoples}}人购买了这件商品</span>
+							<span class="max_price">原价 : ￥{{info.lastPrice}}</span>
+							<span class="total ">总价 : ￥{{nums*info.price}} 元</span>
+							<span class="mans">已有{{info.sales}}人购买了这件商品</span>
 						</div>
 						<div class="buy">
 							<span class="num">数量 : </span>
@@ -44,8 +44,8 @@
 								<input type="text" v-model="nums" />
 								<span class="plusminus2" @click="add"></span>
 							</div>
-							<div class="btn" @click="buys">加入购物车</div>
-							<div class="btn right">立即购买</div>
+							<div class="btn" @click="addCart">加入购物车</div>
+							<div class="btn right" @click="buys">立即购买</div>
 						</div>
 					</div>
 					<div class="center_bottom">
@@ -64,7 +64,7 @@
 				</div>
 				<div class="top_right">
 					<div class="item t">
-						<router-link to="">点击进入商家</router-link>
+						<router-link to="/index/store">点击进入商家</router-link>
 					</div>
 					<div class="item">
 						<span class="iconfont2 icon-qq"></span>QQ客服1
@@ -85,53 +85,36 @@
 	import Addsuccess from "@/components/repeatUse/addSuccess/addSuccess"
 	import Productdetails from "./productDetails/productDetails"
 	export default {
-		name: "",
 		data() {
 			return {
 				isShow: false,
 				isSuccess: false,
 				isCollect: false,
-				imgbig: require("./img/000.jpg"),
+				colorArr:{"请先选择尺码":0},
 				nums: 1,
-				isFootage: 1,
+				isFootage: 0,
 				isColor: "",
 				numshow: 0,
-				info: {
-					name: "",
-					imgs:["./img/000.jpg","./img/001.jpg","./img/002.jpg","./img/003.jpg"],
-					price: 20,
-					lastprice: 40,
-					peoples: 381,
-					size: [{
-						size1: 170,
-						color: {
-							红色: 12,
-							绿色: 10,
-							蓝色: 0
-						}
-					}, {
-						size1: 175,
-						color: {
-							红色: 20,
-							绿色: 30,
-							蓝色: 5
-						}
-					}, {
-						size1: 180,
-						color: {
-							红色: 0,
-							绿色: 0,
-							蓝色: 0
-						}
-					}]
-				}
+				info:""
 			}
+		},
+		beforeUpdate(){
 		},
 		created(){
-			for (var i = 0; i < this.info.imgs.length; i++) {
-				 this.info.imgs[i]=require(this.info.imgs[i]+"")
-			}
-		},
+			let goodsid=this.$route.params.goodsid||sessionStorage.goodsid
+			let	shopid=sessionStorage.id
+			this.$http.get("/api/detail",{params:{goodsid:goodsid,shopid:shopid}}).then(res=>{
+					if(res!="error"){
+						this.info=res.body
+						this.info.imgArr=JSON.parse(this.info.imgArr);
+						this.info.sizeColor=JSON.parse(this.info.sizeColor);
+					}else{
+						this.$router.push({name:"wrong"})
+					}
+			},err=>{
+					this.$router.push({name:"wrong"})
+			})
+			},
 		methods: {
 			collects() {
 				this.isCollect = !this.isCollect
@@ -144,9 +127,8 @@
 					}, 500)
 				}
 			},
-			tab($event) {
-//				console.log($event.currentTarget.src)
-				this.imgbig = $event.currentTarget.src
+			tab(index) {
+				this.info.img = this.info.imgArr[index]
 			},
 			sub() {
 				if(this.nums <= 0) {
@@ -158,28 +140,62 @@
 			add() {
 				this.nums++;
 			},
-			pitchOns(n) {
+			pitchOns(n,m) {
 				this.isFootage = n;
+				this.colorArr=m;
 				this.numshow = n - 1;
 			},
 			pitchOns1(n) {
 				this.isColor = n;
 				//				this.numshow=n-1;
 			},
-			buys() {
-				setTimeout(() => {
-					this.isShow = true;
-				}, 500)
+			addCart() {
+				if(this.isFootage&&this.isColor){
+					let i=0;
+					let size="";
+					let color="";
+					for(let key in this.info.sizeColor){
+						i++;
+						if(i==this.isFootage){
+							size=key
+							let j=0;
+							for(let item in this.info.sizeColor[key]){
+								j++;
+								if(j==this.isColor){
+									color=item
+									break;
+								}
+							}
+						}
+					}
+					this.$http.post("/api/addcart",{goodsid:this.info.id,shopid:this.info.shopid,color:color,size:size,num:this.nums,userid:this.$store.state.userid},{emulateJSON:true}).then(res=>{
+						if(res.body!="error"){
+							setTimeout(() => {
+							this.isShow = true;
+							}, 500)
+						}else{
+							alert("网络延迟,请重试");
+						}
+					},err=>{
+							alert("网络延迟,请重试");
+					})
+					
+				}else{
+					alert("您还未选择商品!")
+				}
+			},
+			buys(){
+				
 			},
 			goback() {
 				setTimeout(() => {
 					this.isShow = false;
 				}, 200)
 			},
-		},
+			},
 		components: {
 			Addsuccess,
-			Productdetails
+			Productdetails,
 		}
 	}
 </script>
@@ -189,7 +205,7 @@
 		width: 100%;
 		height: 100%;
 		font-family: "Microsoft Yahei";
-		background: #f2f2f2;
+		background: #fffae9;
 		.overall {
 			width: 1181px;
 			margin: 0 auto;
@@ -202,9 +218,11 @@
 					float: left;
 					width: 360px;
 					height: 450px;
-					background: #f2f2f2;
+					background: #F4F4F4;
+					border:1px solid rgba(0,0,0,0,02);
 					.big_photo {
 						width: 100%;
+						background: #fff;
 						height: 360px;
 						img {
 							width: 100%;
@@ -215,6 +233,7 @@
 						width: 100%;
 						margin: 10px 0;
 						height: 70px;
+						/*background: #fff;*/
 						position: relative;
 						span {
 							display: inline-block;
@@ -239,6 +258,7 @@
 							display: inline-block;
 							width: 70px;
 							height: 70px;
+							background: #FFF3EC;
 							list-style-type: none;
 							cursor: pointer;
 							img {
@@ -285,7 +305,8 @@
 						.select {
 							border: 1px solid #D3D3D3;
 							display: inline-block;
-							width: 49px;
+							min-width: 29px;
+							padding: 0 20px;
 							height: 26px;
 							line-height: 26px;
 							margin-left: 5px;
@@ -293,7 +314,7 @@
 							cursor: pointer;
 							.num {
 								position: absolute;
-								right: 260px;
+								right: 200px;
 								top: 0;
 								width: 80px;
 								border: none;

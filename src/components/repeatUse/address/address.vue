@@ -7,7 +7,7 @@
 					<div class="composite one">
 						<span class="star">*</span> 收货人姓名：
 					</div>
-					<input id="" class="w_input" />
+					<input id="" class="w_input" v-model="name"/>
 				</div>
 				<div class="contents">
 					<div class="composite">
@@ -32,19 +32,19 @@
 					<div class="composite">
 						<span class="star">*</span> 详细地址：
 					</div>
-					<input id="" class="w_input" />
+					<input id="" class="w_input" v-model="locAtion"/>
 				</div>
 				<div class="contents">
 					<div class="composite">
 						<span class="star">*</span> 联系电话：
 					</div>
-					<input id="put" class="w_input " /> &emsp;或固定电话:&emsp;
+					<input id="put" class="w_input "  v-model="phone"/> &emsp;或固定电话:&emsp;
 					<input id="inp" class="w_input "  /> &emsp;-&emsp;
 					<input id="ipt" class="w_input " />
 				</div>
 				<div class="contents bottom">
 					<span class="text goBack" @click="goback">返回</span>
-					<span class="text">保存</span>
+					<span class="text" @click="save" :class="{alive:isOk}">保存</span>
 				</div>
 			</div>
 		</div>
@@ -59,12 +59,22 @@
 		return{
 			province:"",
 			city:"",
-			county:""
+			county:"",
+			name:"",
+			phone:"",
+			locAtion:"",
 		}
 		},
 		created(){
 		},
 		computed:{
+			isOk(){
+				if(this.name!=""&&this.phone!=""&&this.locAtion!=""&&this.province!=""&&this.county!=""&&this.city!=""){
+					return 1;
+				}else{
+					return 0
+				}
+			},
 			provinces(){
 				var arr=[];
 				for(var item in Address){
@@ -91,17 +101,37 @@
 					arr.push(Address[num1].region.state[num2].city[item].name)
 				}
 				return arr
-			}
+				}
 		},
 		methods:{
 			goback(){
 				this.$emit("close")
+			},
+			save(){
+				if(this.name&&this.phone&&this.locAtion&&this.province&&this.county&&this.city){
+					
+					var obj={}
+					obj.name=this.name
+					obj.phone=this.phone
+					obj.province=this.province
+					obj.city=this.city
+					obj.county=this.county
+					obj.detail=this.locAtion
+					this.$emit("save",obj)
+//					this.$emit("close")
+				}else{
+					alert("请补全信息")
+				}
 			}
 		}
 	}
 </script>
 
 <style lang="less" scoped>
+	.alive{
+		cursor: pointer;
+		background: #ff6c00 !important;
+	}
 	.select_addr{
 		display: flex;
 		justify-content: space-between;
@@ -120,6 +150,7 @@
 		top: 0;
 		left: 0;
 		background: rgba(0, 0, 0, .2);
+		z-index: 10;
 		.address {
 			position: fixed;
 			width: 648px;

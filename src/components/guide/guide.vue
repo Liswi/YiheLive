@@ -1,5 +1,6 @@
 <template>
 	<div style="height: 100% ">
+		<div v-wechat-title="$route.meta.title"></div> 
 		<Topbar></Topbar>
 			<Headtitle :city="currCity"></Headtitle>
 		<div class="content">
